@@ -1,9 +1,5 @@
 package com.example.mohammadchhipa.techchallengeapp.api
 
-import com.example.mohammadchhipa.techchallengeapp.model.WebServices
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 object ApiClient {
     var BASE_URL: String = "https://mock-api-mobile.dev.lalamove.com/"
 

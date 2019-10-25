@@ -7,6 +7,7 @@ import com.example.mohammadchhipa.techchallengeapp.database.DeliveriesDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
+import kotlin.jvm.java
 
 @Module
 class DatabaseModule {

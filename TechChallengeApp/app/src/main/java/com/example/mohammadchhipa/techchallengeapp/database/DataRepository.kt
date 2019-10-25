@@ -1,20 +1,26 @@
 package com.example.mohammadchhipa.techchallengeapp.database
 
-import android.database.Observable
 import com.example.mohammadchhipa.techchallengeapp.model.WebServices
+import io.reactivex.Observable
 import javax.inject.Inject
 
 
-class DataRepository {
+class DataRepository(service1: WebServices, database1: AppDatabase) {
 
-    lateinit var service: WebServices
+    private var service = service1
+    private var database = database1
 
     @Inject
     fun DataRepository(service: WebServices) {
         this.service = service
     }
 
-    fun getDeliveryData(): Observable<DeliveryData> {
+    fun getDeliveryData(): Observable<ArrayList<com.example.mohammadchhipa.techchallengeapp.model.DeliveryData>> {
         return service.getDeliveryData()
     }
+
+//    fun insertData(data: List<DeliveriesData>) {
+//        database.deliveriesDao().insertData(data)
+//    }
+
 }

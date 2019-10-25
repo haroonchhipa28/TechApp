@@ -1,26 +1,26 @@
 package com.example.mohammadchhipa.techchallengeapp
 
 import android.app.Application
-import com.example.mohammadchhipa.techchallengeapp.di.component.DataComponent
-import com.example.mohammadchhipa.techchallengeapp.di.module.DataModule
+import com.example.mohammadchhipa.techchallengeapp.di.component.ViewModelInjector
+import com.example.mohammadchhipa.techchallengeapp.di.module.NetworkModule
 
 
 class TechApplication : Application() {
-
-    private lateinit var app: TechApplication
-
-    private lateinit var dataComponent: DataComponent
+    companion object {
+        lateinit var app: TechApplication
+        lateinit var dataComponent: ViewModelInjector
+    }
 
     override fun onCreate() {
         super.onCreate()
-        app = this
-        initDataComponent()
-        dataComponent.inject(this)
+//        app = this
+//        initDataComponent()
+//        dataComponent.inject(this)
     }
 
     private fun initDataComponent() {
 //        dataComponent = DaggerDataComponent.builder()
-//                .dataModule(DataModule(this))
+//                .dataModule(NetworkModule(this))
 //                .build();
     }
 
@@ -28,7 +28,7 @@ class TechApplication : Application() {
         return app
     }
 
-    fun getDataComponent(): DataComponent {
+    fun getDataComponent(): ViewModelInjector {
         return dataComponent
     }
 }
