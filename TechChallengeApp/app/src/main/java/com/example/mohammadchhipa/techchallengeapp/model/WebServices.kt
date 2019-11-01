@@ -1,15 +1,15 @@
 package com.example.mohammadchhipa.techchallengeapp.model
 
-import io.reactivex.Observable
+import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface WebServices {
 
-    @GET("deliveries")
-    fun getDeliveryData(): Observable<ArrayList<DeliveryData>>
-
 //    @GET("deliveries")
-//    fun getDeliveryData(@Query("offset") offset: Int, @Query("limit") limit: Int)
-//            : Observable<ArrayList<DeliveriesData>>
+//    fun getDeliveryData(): Single<List<DeliveryData>>
 
+    @GET("deliveries")
+    fun getDeliveryData(@Query("offset") offset: Int, @Query("limit") limit: Int)
+            : Single<List<DeliveryDataResponse>>
 }

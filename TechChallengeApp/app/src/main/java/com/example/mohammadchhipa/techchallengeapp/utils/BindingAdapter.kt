@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
+
 @BindingAdapter("mutableVisibility")
 fun setMutableVisibility(view: View, visibility: MutableLiveData<Int>?) {
     val parentActivity: AppCompatActivity? = view.getParentActivity()
@@ -29,12 +30,10 @@ fun setMutableText(view: TextView, text: MutableLiveData<String>?) {
 }
 
 @BindingAdapter("mutableImage")
-fun setMutableImage(view: ImageView, imageUrl: MutableLiveData<String>?) {
+fun setMutableImage(view: ImageView, imageUrl: String) {
     val parentActivity: AppCompatActivity? = view.getParentActivity()
-    if (parentActivity != null && imageUrl != null) {
-        imageUrl.observe(parentActivity, Observer { value ->
-            Glide.with(view.context).load(value ?: "").into(view)
-        })
+    if (parentActivity != null && imageUrl.isNotEmpty()) {
+        Glide.with(view.context).load(imageUrl).into(view)
     }
 }
 

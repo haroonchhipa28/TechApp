@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mohammadchhipa.techchallengeapp.R
 import com.example.mohammadchhipa.techchallengeapp.databinding.ListItemBinding
 import com.example.mohammadchhipa.techchallengeapp.model.DeliveryData
-import com.example.mohammadchhipa.techchallengeapp.viewmodel.ItemViewModel
+
 
 class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
@@ -33,11 +33,8 @@ class ListAdapter : RecyclerView.Adapter<ListAdapter.ViewHolder>() {
     }
 
     class ViewHolder(private val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val viewModel = ItemViewModel()
-        fun bind(deliveryData: DeliveryData) {
-            viewModel.bind(deliveryData)
-            binding.viewModel = viewModel
+        fun bind(data: DeliveryData) {
+            binding.deliveryData = data
         }
     }
-
 }

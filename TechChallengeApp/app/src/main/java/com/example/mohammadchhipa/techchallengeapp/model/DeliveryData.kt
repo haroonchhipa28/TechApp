@@ -1,15 +1,18 @@
 package com.example.mohammadchhipa.techchallengeapp.model
 
-import com.example.mohammadchhipa.techchallengeapp.database.DeliveriesData
-import com.squareup.moshi.JsonClass
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
 
-data class DeliveryData(val id: Int, val description: String, val imageUrl: String, val location: Location)
+//data class DeliveryData(val id: Int, val description: String, val imageUrl: String, val lat: Double, val lng: Double, val address: String)
 
-data class Location(val lat: Double, val lng: Double, val address: String)
-
-fun List<DeliveryData>.asDbModel(): List<DeliveriesData> {
-    return map {
-        DeliveriesData(id = it.id, description = it.description, imageUrl = it.imageUrl
-                , lat = it.location.lat, lng = it.location.lng, address = it.location.address)
-    }
-}
+@Entity(tableName = "deliveries")
+data class DeliveryData(
+        @PrimaryKey
+        val id: Int,
+        var description: String = "",
+        var imageUrl: String = "",
+        var lat: Double,
+        var lng: Double,
+        var address: String = ""
+) : Serializable

@@ -2,4 +2,8 @@
     <string name="app_name">TechChallengeApp</string>
     <string name="post_error">An error occurred while loading the data</string>
     <string name="retry">Retry</string>
+    <string name="no_data_found">No data found.\nPlease pull down to refresh</string>
+    <string name="things_to_deliver">Things to Deliver</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="delivery_details">Delivery Details</string>
 </resources>

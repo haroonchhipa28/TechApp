@@ -2,8 +2,9 @@ package com.example.mohammadchhipa.techchallengeapp.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.mohammadchhipa.techchallengeapp.model.DeliveryData
 
-@Database(entities = [DeliveriesData::class], version = AppDatabase.VERSION, exportSchema = false)
+@Database(entities = [DeliveryData::class], version = AppDatabase.VERSION, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun deliveriesDao(): DeliveriesDao

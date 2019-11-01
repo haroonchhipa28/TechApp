@@ -6,14 +6,20 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.example.mohammadchhipa.techchallengeapp.viewmodel.ItemViewModel" />
+            name="deliveryData"
+            type="com.example.mohammadchhipa.techchallengeapp.model.DeliveryData" />
+
+        <variable
+            name="callback"
+            type="com.example.mohammadchhipa.techchallengeapp.listener.ItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:onClick="@{()->callback.onItemClick(deliveryData)}"
         app:cardCornerRadius="5dp">
 
         <LinearLayout
@@ -28,8 +34,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
                 android:padding="4dp"
-                android:src="@drawable/ic_launcher_foreground"
-                app:mutableImage="@{viewModel.getImageUrl()}" />
+                app:mutableImage="@{deliveryData.imageUrl}" />
 
             <TextView
                 android:id="@+id/txtDescription"
@@ -37,11 +42,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center|start"
                 android:padding="4dp"
-                android:text=""
+                android:text="@{deliveryData.description}"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:mutableText="@{viewModel.getDescription()}"
                 tools:name="text view" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

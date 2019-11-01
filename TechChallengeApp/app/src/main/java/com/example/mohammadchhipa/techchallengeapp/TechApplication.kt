@@ -1,34 +1,34 @@
 package com.example.mohammadchhipa.techchallengeapp
 
+import android.app.Activity
 import android.app.Application
-import com.example.mohammadchhipa.techchallengeapp.di.component.ViewModelInjector
-import com.example.mohammadchhipa.techchallengeapp.di.module.NetworkModule
+import androidx.fragment.app.Fragment
+import com.example.mohammadchhipa.techchallengeapp.di.AppInjector
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
 
-class TechApplication : Application() {
-    companion object {
-        lateinit var app: TechApplication
-        lateinit var dataComponent: ViewModelInjector
-    }
+class TechApplication : Application(), HasActivityInjector, HasSupportFragmentInjector {
+
+    @Inject
+    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    @Inject
+    lateinit var dispatchFragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun onCreate() {
         super.onCreate()
-//        app = this
-//        initDataComponent()
-//        dataComponent.inject(this)
+        AppInjector.init(this)
+
     }
 
-    private fun initDataComponent() {
-//        dataComponent = DaggerDataComponent.builder()
-//                .dataModule(NetworkModule(this))
-//                .build();
+    override fun activityInjector(): AndroidInjector<Activity> {
+        return activityDispatchingAndroidInjector
     }
 
-    fun getApp(): TechApplication {
-        return app
-    }
-
-    fun getDataComponent(): ViewModelInjector {
-        return dataComponent
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return dispatchFragmentInjector
     }
 }

@@ -15,9 +15,9 @@ class DataRepository(service1: WebServices, database1: AppDatabase) {
         this.service = service
     }
 
-    fun getDeliveryData(): Observable<ArrayList<com.example.mohammadchhipa.techchallengeapp.model.DeliveryData>> {
-        return service.getDeliveryData()
-    }
+//    fun getDeliveryData(): Observable<ArrayList<com.example.mohammadchhipa.techchallengeapp.model.DeliveryData>> {
+//        return service.getDeliveryData()
+//    }
 
 //    fun insertData(data: List<DeliveriesData>) {
 //        database.deliveriesDao().insertData(data)

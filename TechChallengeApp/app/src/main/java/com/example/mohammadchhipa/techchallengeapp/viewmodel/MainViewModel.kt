@@ -1,96 +1,50 @@
 package com.example.mohammadchhipa.techchallengeapp.viewmodel
 
 
-import android.view.View
-import androidx.lifecycle.MutableLiveData
-import com.example.mohammadchhipa.techchallengeapp.R
-import com.example.mohammadchhipa.techchallengeapp.adapter.ListAdapter
-import com.example.mohammadchhipa.techchallengeapp.database.DeliveriesDao
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.mohammadchhipa.techchallengeapp.domain.usecases.DataUseCase
 import com.example.mohammadchhipa.techchallengeapp.model.DeliveryData
-import com.example.mohammadchhipa.techchallengeapp.model.WebServices
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.example.mohammadchhipa.techchallengeapp.utils.AppConstant
+import com.example.mohammadchhipa.techchallengeapp.utils.NetworkUtils
+import com.example.mohammadchhipa.techchallengeapp.view.BaseViewModel
+import com.example.mohammadchhipa.techchallengeapp.view.datalist.BoundaryCallback
 import javax.inject.Inject
 
 
-class MainViewModel(private val deliveriesDao: DeliveriesDao) : BaseViewModel() {
+class MainViewModel @Inject constructor(
+        private val useCase: DataUseCase,
+        private val networkUtils: NetworkUtils) : BaseViewModel() {
 
-//    @Inject
-//    protected lateinit var repository: DataRepository
-
-    @Inject
-    lateinit var webServices: WebServices
-
-    private lateinit var subscription: Disposable
-    val loadingVisibility: MutableLiveData<Int> = MutableLiveData()
-    val errorMessage: MutableLiveData<Int> = MutableLiveData()
-    val errorClickListener = View.OnClickListener { callNetworkApi() }
-    val listAdapter: ListAdapter = ListAdapter()
+    var itemList: LiveData<PagedList<DeliveryData>>
+    var item = ObservableField<DeliveryData>()
+    var noData = ObservableBoolean(false)
+    var boundaryCallback: BoundaryCallback
 
     init {
-        callNetworkApi()
+
+        val config = PagedList.Config.Builder()
+                .setPageSize(AppConstant.Const.PAGE_SIZE)
+                .setInitialLoadSizeHint(AppConstant.Const.PAGE_SIZE)
+                .setEnablePlaceholders(false)
+                .build()
+
+        boundaryCallback =
+                BoundaryCallback(useCase, getDisposable(), networkUtils)
+
+        itemList = LivePagedListBuilder(useCase.getItemList(), config)
+                .setBoundaryCallback(boundaryCallback).build()
+
     }
 
-    private fun callNetworkApi() {
-        subscription =
-//                Observable.fromCallable { deliveriesDao.getAll() }
-//                .concatMap { dbDataList ->
-//                    if (dbDataList.isEmpty())
-//                        webServices.getDeliveryData().concatMap { apiDataList ->
-//                            deliveriesDao.insertData(apiDataList)
-//                            Observable.just(apiDataList)
-//                        }
-//                    else
-//                        Observable.just(dbDataList)
-//                }
+    fun retry() = boundaryCallback.retry()
 
-                webServices.getDeliveryData()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { onRetrievePostListStart() }
-                .doOnTerminate { onRetrievePostListFinish() }
-                .subscribe(
-                        { result -> onRetrievePostListSuccess(result) },
-                        { onRetrievePostListError() })
+    fun onRefresh() {
+        isLoading.set(true)
+        boundaryCallback.onRefresh()
     }
 
-
-    private fun onRetrievePostListStart() {
-        loadingVisibility.value = View.VISIBLE
-        errorMessage.value = null
-    }
-
-    private fun onRetrievePostListFinish() {
-        loadingVisibility.value = View.GONE
-    }
-
-    private fun onRetrievePostListSuccess(result: List<DeliveryData>) {
-        listAdapter.updatePostList(result)
-    }
-
-    private fun onRetrievePostListError() {
-        errorMessage.value = R.string.post_error
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        subscription.dispose()
-    }
-
-//    interface MainView {
-//        fun getData(data: ArrayList<DeliveriesData>)
-//    }
-//
-//    fun makeNetworkCall() {
-//        repository.getDeliveryData()
-//                .subscribeOn(Schedulers.io())
-//                ?.observeOn(AndroidSchedulers.mainThread())
-//                ?.doOnError({ throwable -> Log.e(MainViewModel::class.java.simpleName, "Error in network call") })
-//                ?.subscribe { model ->
-//                    if (model.size > 0) {
-//                        repository.insertData(model)
-//                    }
-//                }
-//    }
 }
